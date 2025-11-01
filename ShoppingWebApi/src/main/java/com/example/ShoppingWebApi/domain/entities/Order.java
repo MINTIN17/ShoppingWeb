@@ -1,7 +1,15 @@
 package com.example.ShoppingWebApi.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Entity
+@Getter
+@Setter
+@Table(name = "order")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

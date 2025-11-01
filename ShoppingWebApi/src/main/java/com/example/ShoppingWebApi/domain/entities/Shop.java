@@ -1,10 +1,15 @@
 package com.example.ShoppingWebApi.domain.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Entity
+@Getter
+@Setter
+@Table(name = "shop")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +20,7 @@ public class Shop {
     private String address;
     private String phone;
 
+    @ManyToOne()
     @JoinColumn(name = "seller_id", nullable = false)
     private Seller seller;
 }

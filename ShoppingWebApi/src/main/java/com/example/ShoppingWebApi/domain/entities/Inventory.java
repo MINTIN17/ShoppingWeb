@@ -1,9 +1,16 @@
 package com.example.ShoppingWebApi.domain.entities;
 
 import jakarta.persistence.*;
-
+import lombok.*;
 import java.time.LocalTime;
 
+@Entity
+@Getter
+@Setter
+@Table(name = "inventory")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

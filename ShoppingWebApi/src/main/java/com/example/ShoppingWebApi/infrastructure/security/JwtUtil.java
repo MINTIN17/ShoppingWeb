@@ -1,6 +1,6 @@
 package com.example.ShoppingWebApi.infrastructure.security;
 
-import com.example.hospital_appointment.domain.Enums.Role;
+import com.example.ShoppingWebApi.domain.Enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-// Huy arrived
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

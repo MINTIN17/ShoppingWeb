@@ -19,4 +19,9 @@ public class CustomerRepo implements ICustomerRepo {
     public Optional<Customer> findByUserEmail(String email) {
         return jpaCustomer.findByUserEmail(email);
     }
+
+    @Override
+    public Customer Save(Customer customer) {
+        return jpaCustomer.save(customer);
+    }
 }

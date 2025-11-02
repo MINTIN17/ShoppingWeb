@@ -10,6 +10,7 @@ import com.example.ShoppingWebApi.infrastructure.mapper.CustomerMapper;
 import com.example.ShoppingWebApi.infrastructure.mapper.SellerMapper;
 import com.example.ShoppingWebApi.infrastructure.security.JwtUtil;
 import com.example.ShoppingWebApi.presentation.dto.request.LoginRequest;
+import com.example.ShoppingWebApi.presentation.dto.request.RegisterRequest;
 import com.example.ShoppingWebApi.presentation.dto.response.CustomerResponse;
 import com.example.ShoppingWebApi.presentation.dto.response.LoginCustomerResponse;
 import com.example.ShoppingWebApi.presentation.dto.response.LoginSellerResponse;
@@ -33,6 +34,12 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
         this.authService = authService;
         this.userService = userService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Customer> create(@RequestBody RegisterRequest registerRequest) {
+        Customer customer= authService.register(registerRequest);
+        return ResponseEntity.ok(customer);
     }
 
     @PostMapping("/login")

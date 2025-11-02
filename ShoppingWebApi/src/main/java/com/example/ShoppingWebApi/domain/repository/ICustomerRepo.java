@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface ICustomerRepo {
     Optional<Customer>  findByUserEmail(String email);
+    Customer Save(Customer customer);
 }

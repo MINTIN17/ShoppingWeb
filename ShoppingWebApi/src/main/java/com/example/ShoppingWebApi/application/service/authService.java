@@ -7,7 +7,9 @@ import com.example.ShoppingWebApi.domain.entities.User;
 import com.example.ShoppingWebApi.domain.repository.ICustomerRepo;
 import com.example.ShoppingWebApi.domain.repository.ISellerRepo;
 import com.example.ShoppingWebApi.domain.repository.IUserRepo;
+import com.example.ShoppingWebApi.infrastructure.mapper.CustomerMapper;
 import com.example.ShoppingWebApi.infrastructure.security.JwtUtil;
+import com.example.ShoppingWebApi.presentation.dto.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,5 +70,15 @@ public class authService implements IAuthService {
     @Override
     public Optional<Seller> findBySellerEmail(String email) {
         return sellerRepo.findByUserEmail(email);
+    }
+
+    public Customer register(RegisterRequest registerRequest) {
+        Customer customer = CustomerMapper.toCustomer(registerRequest);
+        User user = customer.getUser();
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
+        customer.setUser(user);
+
+        return customerRepo.Save(customer);
     }
 }

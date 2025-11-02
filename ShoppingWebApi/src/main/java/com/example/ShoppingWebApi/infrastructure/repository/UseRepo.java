@@ -15,7 +15,6 @@ public class UseRepo implements IUserRepo {
         this.jpaUser = jpaUser;
     }
 
-
     @Override
     public Optional<User> findByEmail(String email) {
         return jpaUser.findByEmail(email);

@@ -3,10 +3,12 @@ package com.example.ShoppingWebApi.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
-@Table(name = "order")
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -20,4 +22,7 @@ public class Order {
     private Cart cart;
 
     private float price;
+    private LocalDateTime orderDate;
+    private String status; // e.g. "PENDING", "PAID", "SHIPPED", "CANCELLED"
+    private String paymentMethod; // e.g. "CASH", "CREDIT_CARD", "MOMO"
 }

@@ -13,8 +13,8 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    @Value("${JWT_SECRET}")
-    private String secret;
+//    @Value("${JWT_SECRET}")
+    private String secret="aWVsfgFLpXIjcLQTXB5NYcBsu1hfa41n";
 
     public String generateToken(String email, Role role) {
         Map<String, Object> claims = new HashMap<>();

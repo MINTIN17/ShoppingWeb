@@ -17,6 +17,7 @@ import com.example.ShoppingWebApi.presentation.dto.response.LoginSellerResponse;
 import com.example.ShoppingWebApi.presentation.dto.response.SellerResponse;
 import com.example.ShoppingWebApi.presentation.dto.response.StructureResponse;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +40,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Customer> create(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<Customer> create(@RequestBody @Valid RegisterRequest registerRequest) {
         Customer customer = authService.register(registerRequest);
         return ResponseEntity.ok(customer);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<StructureResponse<?>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<StructureResponse<?>> login(@RequestBody @Valid LoginRequest request) {
         try {
             Optional<User> userOpt = authService.CheckAdmin(request.getEmail(), request.getPassword());
 

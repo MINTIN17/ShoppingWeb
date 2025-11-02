@@ -15,6 +15,8 @@ import com.example.ShoppingWebApi.presentation.dto.response.CustomerResponse;
 import com.example.ShoppingWebApi.presentation.dto.response.LoginCustomerResponse;
 import com.example.ShoppingWebApi.presentation.dto.response.LoginSellerResponse;
 import com.example.ShoppingWebApi.presentation.dto.response.SellerResponse;
+import com.example.ShoppingWebApi.presentation.dto.response.StructureResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,14 +40,16 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Customer> create(@RequestBody RegisterRequest registerRequest) {
-        Customer customer= authService.register(registerRequest);
+        Customer customer = authService.register(registerRequest);
         return ResponseEntity.ok(customer);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<StructureResponse<?>> login(@RequestBody LoginRequest request) {
         try {
             Optional<User> userOpt = authService.CheckAdmin(request.getEmail(), request.getPassword());
+
+            // === Nếu là Admin ===
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
                 String token = jwtUtil.generateToken(request.getEmail(), user.getRole());
@@ -53,24 +57,37 @@ public class AuthController {
                 Map<String, String> response = new HashMap<>();
                 response.put("token", token);
 
-                return ResponseEntity.ok(response);
+                return ResponseEntity.ok(
+                        StructureResponse.success("Admin login successful", response));
             }
 
+            // === Nếu là Customer hoặc Seller ===
             String token = authService.login(request.getEmail(), request.getPassword());
             User user = userService.findByEmail(request.getEmail());
+
             if (user.getRole() == Role.CUSTOMER) {
                 Customer customer = authService.findByCustomerEmail(request.getEmail())
-                        .orElseThrow(() -> new RuntimeException("Patient not found"));
+                        .orElseThrow(() -> new RuntimeException("Customer not found"));
                 CustomerResponse customerResponse = CustomerMapper.toCustomerResponse(customer);
-                return ResponseEntity.ok(new LoginCustomerResponse(token, customerResponse));
+                LoginCustomerResponse data = new LoginCustomerResponse(token, customerResponse);
+
+                return ResponseEntity.ok(
+                        StructureResponse.success("Customer login successful", data));
             }
-            Seller doctor = authService.findBySellerEmail(request.getEmail())
-                    .orElseThrow(() -> new RuntimeException("Doctor not found"));
-            SellerResponse doctorResponse = SellerMapper.toSellerResponse(doctor);
-            return ResponseEntity.ok(new LoginSellerResponse(token, doctorResponse));
+
+            // === Nếu là Seller ===
+            Seller seller = authService.findBySellerEmail(request.getEmail())
+                    .orElseThrow(() -> new RuntimeException("Seller not found"));
+            SellerResponse sellerResponse = SellerMapper.toSellerResponse(seller);
+            LoginSellerResponse data = new LoginSellerResponse(token, sellerResponse);
+
+            return ResponseEntity.ok(
+                    StructureResponse.success("Seller login successful", data));
 
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    StructureResponse.error("401", e.getMessage()));
         }
     }
+
 }

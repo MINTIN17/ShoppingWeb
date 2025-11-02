@@ -4,6 +4,7 @@ import com.example.ShoppingWebApi.domain.Enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,7 +13,8 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    private final String secret = "U2FsdGVkX1+6I5AkYho2mgJx5qozM0d/dG6Udo9td5I=";
+    @Value("${JWT_SECRET}")
+    private String secret;
 
     public String generateToken(String email, Role role) {
         Map<String, Object> claims = new HashMap<>();

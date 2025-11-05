@@ -7,17 +7,30 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+
 public class userService implements IUserService {
-    @Autowired
-    private IUserRepo userRepo;
+
+    private final IUserRepo userRepo;
+
+    public userService(IUserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
-    public User findByEmail(String email) {
-        Optional<User> user = userRepo.findByEmail(email);
-        return user.orElse(null);
+    public Optional<User> findByEmail(String email) {
+        return userRepo.findUserByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findByName(String name) {
+        return userRepo.findUserByName(name);
+    }
+    @Override
+    public List<User> findAllUsers() {
+        return userRepo.findAllUsers();
     }
 }

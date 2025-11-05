@@ -6,6 +6,7 @@ import com.example.ShoppingWebApi.infrastructure.repository.Jpa.JpaCustomer;
 import com.example.ShoppingWebApi.infrastructure.repository.Jpa.JpaSeller;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,5 +20,12 @@ public class SellerRepo implements ISellerRepo {
     @Override
     public Optional<Seller> findByUserEmail(String email) {
         return jpaSeller.findByUserEmail(email);
+    }
+    @Override
+    public Optional<Seller> findByUserName(String name) {
+        return jpaSeller.findByUserName(name);
+    }
+    public List<Seller> findAllSellers() {
+        return jpaSeller.findAll();
     }
 }

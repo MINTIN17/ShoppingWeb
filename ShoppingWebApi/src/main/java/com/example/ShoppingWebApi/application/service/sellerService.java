@@ -7,10 +7,30 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class sellerService implements ISellerService {
-    @Autowired
-    private ISellerRepo sellerRepo;
+import java.util.List;
+import java.util.Optional;
 
+@Service
+
+public class sellerService implements ISellerService {
+    private final ISellerRepo sellerRepo;
+
+    public sellerService(ISellerRepo sellerRepo) {
+        this.sellerRepo = sellerRepo;
+    }
+
+    @Override
+    public Optional<Seller> findByUserEmail(String email) {
+        return sellerRepo.findByUserEmail(email);
+    }
+
+    @Override
+    public Optional<Seller> findByUserName(String email) {
+        return sellerRepo.findByUserName(email);
+    }
+
+    @Override
+    public List<Seller> findAllSellers() {
+        return sellerRepo.findAllSellers();
+    }
 }

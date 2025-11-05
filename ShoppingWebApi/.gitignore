@@ -18,6 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
+.idea/modules.xml
+
 
 ### NetBeans ###
 /nbproject/private/
@@ -34,5 +36,5 @@ build/
 
 /src/main/resources/application.properties
 
-.env
+.env.properties
 
